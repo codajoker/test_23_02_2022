@@ -8,6 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/system';
 import { nanoid } from 'nanoid';
+import { useEffect } from 'react';
+
+import { useLocation, useSearchParams } from 'react-router-dom';
 const Root = styled('div')`
   td,
   th,
@@ -17,8 +20,11 @@ const Root = styled('div')`
   }
 `;
 
-export function ColumnGroupingTable({ objectCity, handleOpen }) {
+export function ColumnGroupingTable({ objectCity }) {
   const years = ['2017', '2018', '2019'];
+  // const [searchParams, setSearchParams] = useSearchParams();
+  let locale = useLocation();
+
   return (
     <>
       <Root key={nanoid()}>
@@ -74,18 +80,49 @@ export function ColumnGroupingTable({ objectCity, handleOpen }) {
               <TableBody key={nanoid()}>
                 {Object.keys(objectCity).map(city => {
                   return (
-                    <TableRow key={nanoid()} onClick={() => handleOpen()} hover>
+                    <TableRow key={nanoid()} hover>
                       <TableCell key={nanoid()}> {city}</TableCell>
+
                       {years.map(year =>
                         objectCity[city].G[year] ? (
                           <>
-                            <TableCell key={nanoid()}>
+                            <TableCell
+                              key={nanoid()}
+                              onClick={() => {
+                                console.log(locale);
+                                window.open(
+                                  `popup/${city}&${year}&XX`,
+                                  `popup/${city}&${year}&XX`,
+                                  'width=1200,height=600'
+                                );
+                              }}
+                            >
                               {objectCity[city].G[year].XX.value}
                             </TableCell>
-                            <TableCell key={nanoid()}>
+                            <TableCell
+                              key={nanoid()}
+                              onClick={() => {
+                                window.open(
+                                  `popup/${city}&${year}&YY`,
+                                  `popup/${city}&${year}&YY`,
+                                  'width=1200,height=600'
+                                );
+                              }}
+                            >
                               {objectCity[city].G[year].YY.value}
                             </TableCell>
-                            <TableCell key={nanoid()}>
+                            <TableCell
+                              key={nanoid()}
+                              onClick={() => {
+                                console.log(locale);
+
+                                window.open(
+                                  `popup/${city}&${year}&ZZ`,
+                                  `popup/${city}&${year}&ZZ`,
+                                  'width=1200,height=600'
+                                );
+                              }}
+                            >
                               {objectCity[city].G[year].ZZ.value}
                             </TableCell>
                           </>

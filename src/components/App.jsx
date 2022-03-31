@@ -14,9 +14,6 @@ export const App = () => {
     const data = fetch.data[0];
     return setObjectCity(data);
   }
-  function popUp() {
-    window.open('modal', 'test');
-  }
 
   useEffect(() => {
     API();
@@ -28,14 +25,9 @@ export const App = () => {
           <Routes>
             <Route
               path="/"
-              element={
-                <ColumnGroupingTable
-                  handleOpen={popUp}
-                  objectCity={objectCity}
-                />
-              }
+              element={<ColumnGroupingTable objectCity={objectCity} />}
             />
-            <Route path="/modal" element={<BasicModal />} />
+            <Route path="popup/*" element={<BasicModal />} />
           </Routes>
           {/* <ColumnGroupingTable
             

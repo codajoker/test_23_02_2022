@@ -5,6 +5,7 @@ import { ModalTable } from './ModalTable';
 import { TextField, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -25,12 +26,13 @@ export function BasicModal() {
   const handleClose = () => setOpen(false);
 
   const [user, setUser] = useState('user');
-  const [data, setData] = useState('no-data');
+  const [data, setData] = useState(() => new Date().toLocaleString());
   const [comment, setComment] = useState('');
   const [value, setValue] = useState('0');
+  const locale = useLocation().pathname;
   const [arrayClients, setArrayClients] = useState(() => {
     return (
-      JSON.parse(window.localStorage.getItem('clients')) ?? [
+      JSON.parse(window.localStorage.getItem(locale)) ?? [
         {
           value: 5,
           data: '20.20.2020',
@@ -42,8 +44,8 @@ export function BasicModal() {
     );
   });
   useEffect(() => {
-    window.localStorage.setItem('clients', JSON.stringify(arrayClients));
-  }, [arrayClients]);
+    window.localStorage.setItem(locale, JSON.stringify(arrayClients));
+  }, [arrayClients, locale]);
   const addContact = data => {
     setArrayClients(prevState => {
       return [
