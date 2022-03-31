@@ -154,7 +154,7 @@ export function BasicModal() {
             </Button>
           </form>{' '}
           <Button
-            onClick={handleClose}
+            onClick={() => window.close()}
             type="button"
             sx={{
               position: 'absolute',
