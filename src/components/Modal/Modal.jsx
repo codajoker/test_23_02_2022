@@ -3,10 +3,12 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { ModalTable } from './ModalTable';
 import { TextField, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+
 const style = {
   position: 'absolute',
-  top: '50px',
+  top: '300px',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 900,
@@ -18,11 +20,44 @@ const style = {
   padding: '80px',
 };
 
-export function BasicModal({ arrayClients, addContact, open, handleClose }) {
+export function BasicModal() {
+  const [open, setOpen] = useState(true);
+  const handleClose = () => setOpen(false);
+
   const [user, setUser] = useState('user');
   const [data, setData] = useState('no-data');
   const [comment, setComment] = useState('');
   const [value, setValue] = useState('0');
+  const [arrayClients, setArrayClients] = useState(() => {
+    return (
+      JSON.parse(window.localStorage.getItem('clients')) ?? [
+        {
+          value: 5,
+          data: '20.20.2020',
+          user: 'Vlad',
+          comment: 'vay',
+          id: nanoid(),
+        },
+      ]
+    );
+  });
+  useEffect(() => {
+    window.localStorage.setItem('clients', JSON.stringify(arrayClients));
+  }, [arrayClients]);
+  const addContact = data => {
+    setArrayClients(prevState => {
+      return [
+        {
+          value: data.value,
+          data: data.data,
+          user: data.user,
+          comment: data.comment,
+          id: nanoid(),
+        },
+        ...prevState,
+      ];
+    });
+  };
   const onChange = e => {
     const { name, value } = e.target;
     if (name === 'user' && value === '') {
@@ -53,14 +88,8 @@ export function BasicModal({ arrayClients, addContact, open, handleClose }) {
   const handleSubmit = e => {
     e.preventDefault();
     addContact({ user, data, comment, value });
-    // reset();
   };
-  //   const reset = () => {
-  //     setValue('');
-  //     setComment('');
-  //     setData('');
-  //     setUser('');
-  //   };
+
   return (
     <div>
       <Modal
