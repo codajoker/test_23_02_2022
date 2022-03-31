@@ -15,7 +15,7 @@ export const App = () => {
     return setObjectCity(data);
   }
   function popUp() {
-    window.open('/modal', 'test');
+    window.open('test_23_02_2022/modal', 'test');
   }
 
   useEffect(() => {
